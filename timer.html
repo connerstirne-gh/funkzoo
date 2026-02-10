@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer | funkzoo.org</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff88;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            color: #fff;
+        }
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .timer-card {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 1px solid #00ff88;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .timer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        .timer-title {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        .timer-destination {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        .timer-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+        }
+        .timer-unit {
+            font-size: 0.7rem;
+            color: #666;
+        }
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: transparent;
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+        }
+        .back-btn:hover {
+            background: #00ff88;
+            color: #0a0a0a;
+        }
+        .footer {
+            position: fixed;
+            bottom: 1rem;
+            color: #444;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← Zurück</a>
+    
+    <h1>Countdowns</h1>
+    
+    <div class="timer-grid">
+        <!-- Oster-Sonntag 2026 -->
+        <div class="timer-card" id="easter-2026">
+            <div class="timer-title">Oster-Sonntag</div>
+            <div class="timer-destination">05. April 2026</div>
+            <div class="timer-display">--</div>
+            <div class="timer-unit">Tage</div>
+        </div>
+        
+        <!-- Weihnachten 2026 -->
+        <div class="timer-card" id="christmas-2026">
+            <div class="timer-title">Weihnachten</div>
+            <div class="timer-destination">25. Dezember 2026</div>
+            <div class="timer-display">--</div>
+            <div class="timer-unit">Tage</div>
+        </div>
+        
+        <!-- Silvester 2027 -->
+        <div class="timer-card" id="newyear-2027">
+            <div class="timer-title">Silvester</div>
+            <div class="timer-destination">31. Dezember 2027</div>
+            <div class="timer-display">--</div>
+            <div class="timer-unit">Tage</div>
+        </div>
+        
+        <!-- 2030 -->
+        <div class="timer-card" id="year-2030">
+            <div class="timer-title">2030</div>
+            <div class="timer-destination">01. Januar 2030</div>
+            <div class="timer-display">--</div>
+            <div class="timer-unit">Tage</div>
+        </div>
+        
+        <!-- 2050 -->
+        <div class="timer-card" id="year-2050">
+            <div class="timer-title">2050</div>
+            <div class="timer-destination">01. Januar 2050</div>
+            <div class="timer-display">--</div>
+            <div class="timer-unit">Tage</div>
+        </div>
+        
+        <!-- Nächste total verrückte -->
+        <div class="timer-card" id="year-2100">
+            <div class="timer-title">2100</div>
+            <div class="timer-destination">01. Januar 2100</div>
+            <div class="timer-display">--</div>
+            <div class="timer-unit">Tage</div>
+        </div>
+    </div>
+    
+    <div class="footer">Made with ❤️ by Caleb AI</div>
+
+    <script>
+        const targets = [
+            { id: 'easter-2026', date: '2026-04-05' },
+            { id: 'christmas-2026', date: '2026-12-25' },
+            { id: 'newyear-2027', date: '2027-12-31' },
+            { id: 'year-2030', date: '2030-01-01' },
+            { id: 'year-2050', date: '2050-01-01' },
+            { id: 'year-2100', date: '2100-01-01' }
+        ];
+        
+        function updateTimers() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            targets.forEach(target => {
+                const targetDate = new Date(target.date + 'T00:00:00');
+                const diff = targetDate - today;
+                const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                
+                const element = document.getElementById(target.id);
+                if (element) {
+                    const display = element.querySelector('.timer-display');
+                    if (days > 0) {
+                        display.textContent = days.toLocaleString('de-DE');
+                    } else if (days === 0) {
+                        display.textContent = 'HEUTE!';
+                        display.style.color = '#ff6b6b';
+                    } else {
+                        display.textContent = 'PASSIERT';
+                        display.style.color = '#666';
+                    }
+                }
+            });
+        }
+        
+        updateTimers();
+        
+        // Zweimal täglich aktualisieren: Mitternacht und High Noon
+        function scheduleNextUpdate() {
+            const now = new Date();
+            const hour = now.getHours();
+            
+            let nextUpdate;
+            if (hour < 12) {
+                // Nach Mittag, warte bis Mitternacht
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(0, 0, 0, 0);
+                nextUpdate = tomorrow - now;
+            } else {
+                // Nach Mitternacht, warte bis 12:00
+                const noon = new Date(now);
+                noon.setHours(12, 0, 0, 0);
+                if (noon <= now) {
+                    noon.setDate(noon.getDate() + 1);
+                }
+                nextUpdate = noon - now;
+            }
+            
+            setTimeout(() => {
+                updateTimers();
+                scheduleNextUpdate();
+            }, nextUpdate);
+        }
+        
+        // Erste Update planen
+        scheduleNextUpdate();
+    </script>
+</body>
+</html>
