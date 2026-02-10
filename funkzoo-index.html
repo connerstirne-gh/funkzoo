@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunkZoo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Funk-Wellen Animation */
+        .radio-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0.1;
+        }
+
+        .wave {
+            position: absolute;
+            border: 2px solid #e94560;
+            border-radius: 50%;
+            animation: transmit 4s infinite;
+        }
+
+        .wave:nth-child(1) { width: 100px; height: 100px; top: 20%; left: 10%; animation-delay: 0s; }
+        .wave:nth-child(2) { width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: 1s; }
+        .wave:nth-child(3) { width: 80px; height: 80px; top: 40%; left: 50%; animation-delay: 2s; }
+        .wave:nth-child(4) { width: 120px; height: 120px; top: 70%; left: 20%; animation-delay: 1.5s; }
+
+        @keyframes transmit {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 40px;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #e94560, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(233, 69, 96, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .tagline {
+            color: #eaeaea;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.8;
+            letter-spacing: 3px;
+        }
+
+        .zoo-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .animal {
+            font-size: 4rem;
+            position: relative;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
+        .animal:nth-child(1) { animation-delay: 0s; }
+        .animal:nth-child(2) { animation-delay: 0.5s; }
+        .animal:nth-child(3) { animation-delay: 1s; }
+        .animal:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .animal::after {
+            content: '📻';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.5rem;
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .frequency {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #e94560;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            opacity: 0.6;
+        }
+
+        .frequency::before {
+            content: '● ';
+            color: #00ff00;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 60px;
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .logo { font-size: 2.5rem; }
+            .tagline { font-size: 1rem; }
+            .animal { font-size: 3rem; }
+            .zoo-container { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Funk-Wellen im Hintergrund -->
+    <div class="radio-waves">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <div class="container">
+        <a href="timer.html" class="logo" style="display: inline-block; text-decoration: none; cursor: pointer;">FUNKZOO</a>
+        <p class="tagline">WHERE ANIMALS MAKE THE NOISE</p>
+        
+        <div class="zoo-container">
+            <div class="animal">🦁</div>
+            <div class="animal">🐘</div>
+            <div class="animal">🦒</div>
+            <div class="animal">🐒</div>
+        </div>
+    </div>
+
+    <div class="frequency">ON AIR 99.9 FM</div>
+    
+    <div class="footer">Domain reserved for future use</div>
+</body>
+</html>
